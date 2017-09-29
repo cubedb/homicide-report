@@ -1,0 +1,37 @@
+{
+  "name": "es6-scaffolding",
+  "version": "1.0.0",
+  "description": "ES6 Webpack 2 project scaffolding",
+  "main": "webpack.config.json",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-loader": "^7.1.2",
+    "babel-preset-stage-0": "^6.24.1",
+    "case-sensitive-paths-webpack-plugin": "^2.1.1",
+    "clean-webpack-plugin": "^0.1.17",
+    "html-loader": "^0.5.1",
+    "html-webpack-plugin": "^2.30.1",
+    "progress-bar-webpack-plugin": "^1.10.0",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.9.1"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack --progress",
+    "prepare": "npm run webpack",
+    "start": "webpack-dev-server --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrfferreira/es6-scaffolding.git"
+  },
+  "author": "jrfferreira",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jrfferreira/es6-scaffolding/issues"
+  },
+  "homepage": "https://github.com/jrfferreira/es6-scaffolding#readme"
+}

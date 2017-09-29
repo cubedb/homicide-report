@@ -1,0 +1,39 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended",
+    "plugin:promise/recommended",
+    "plugin:jest/recommended"
+   ],
+  "plugins": [
+    "promise",
+    "jest"
+  ],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true,
+      "classes": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "rules": {
+    "strict": ["error", "global"],
+    "indent": ["warn", 2, {"SwitchCase": 1}],
+    "linebreak-style": ["warn", "unix"],
+    "quotes": ["warn", "single"],
+    "semi": ["warn", "never"],
+    "no-underscore-dangle": "off",
+    "eqeqeq": "error",
+    "no-eq-null": "error",
+    "no-loop-func": "error",
+    "no-duplicate-imports": "error",
+    "no-param-reassign": "error",
+    "prefer-const": ["error", {"destructuring": "all"}],
+  }
+}
