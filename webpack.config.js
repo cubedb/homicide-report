@@ -9,10 +9,10 @@ module.exports = {
   entry: './src',
   devtool: 'source-map',
   devServer: {
-    contentBase: './dist'
+    contentBase: './docs'
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(['docs']),
     new HtmlWebpackPlugin({
       template: 'src/index.html'
     }),
@@ -39,13 +39,21 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['stage-0']
+          presets: ['react', 'stage-0']
         }
-      }
+      },
+      {
+        test: /\.css$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
+      },
+      {
+        test: /\.scss$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }, { loader: 'sass-loader' }]
+      },
     ]
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'docs'),
     filename: 'bundle.js',
     publicPath: '/'
   },
