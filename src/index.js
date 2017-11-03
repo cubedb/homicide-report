@@ -3,11 +3,12 @@ import React from 'react'
 import reactDOM from 'react-dom'
 import qs from 'qs'
 
-import { timeFormat, timeParse } from 'd3'
+import { timeFormat, utcParse, utcFormat, schemeCategory20c, scaleOrdinal } from 'd3'
 
 import { TimeGraph, TagGroup, BarGraphGroup } from 'react-cubedb'
 
-
+const colors = scaleOrdinal(schemeCategory20c)
+const DATE_FORMAT = '%Y-%m'
 const DATA_SOURCE = 'http://188.226.178.165:9998/v1/homicides_month/last/400'
 
 class CubeGraph extends React.Component {
@@ -16,42 +17,86 @@ class CubeGraph extends React.Component {
     loading: boolean,
     filter: { [string]: Array<string> },
     group: string,
-    data: ?Object
+    range: Array<number>,
+    comparingRange: Array<number>,
+    comparing: boolean,
+    data: ?Object,
+    comparingData: boolean
   }
-  
+
   constructor(props) {
     super(props)
 
     this.state = {
       loading: false,
       data: null,
+      comparingData: null,
       group: null,
-      filter: {}
+      range: null,
+      comparingRange: null,
+      filter: {},
+      comparing: false
     }
   }
 
   componentDidMount = () => {
-    this.load()
+    this.update()
   }
 
-  load = () => {
-    this.setState({
-        loading: true
-    }, () => {
-      const url = `${DATA_SOURCE}/${this.state.group ? `group_by/${this.state.group}`:''}?${qs.stringify(this.state.filter, {encode: true, indices: false})}`
 
-      fetch(url, {
+  load = (range) => {
+      const filter = Object.assign({}, this.state.filter)
+
+      if(range && range.length) {
+        const f = utcFormat(DATE_FORMAT)
+        const [p0,p1] = range
+        filter.p = [f(p0), f(p1)]
+      }
+
+      const url = `${DATA_SOURCE}/${this.state.group ? `group_by/${this.state.group}`:''}?${qs.stringify(filter, {encode: true, indices: false})}`
+
+      return fetch(url, {
         method: 'GET',
-      })
+      }).then(response => {
+        return response.json()
+      }).then((response) => {
+        return response.response
+      }).catch(this.updateError)
+  }
+
+  updateError = e => {
+    this.setState({
+      error: e.message
+    })
+  }
+
+  update = () => {
+    this.setState({
+      loading: true
+    }, () => {
+      this.load(this.state.range)
         .then(response => {
-          return response.json()
-        })
-        .then(this.update)
-        .catch(e => {
           this.setState({
-            error: e.message
+            loading: false,
+            data: response
           })
+          return response
         })
+        .then((response) => {
+          if(this.state.comparingRange) {
+            this.load(this.state.comparingRange)
+              .then(response => {
+                this.setState({
+                  loading: false,
+                  comparingData: response
+                })
+                return response
+              })
+              .catch(this.updateError)
+          }
+          return response
+        })
+        .catch(this.updateError)
     })
   }
 
@@ -62,8 +107,9 @@ class CubeGraph extends React.Component {
     }
     this.setState({
       group
-    }, this.load)
+    }, this.update)
   }
+
   updateFilter = (key, value) => {
     const filter = Object.assign({}, this.state.filter)
 
@@ -76,19 +122,9 @@ class CubeGraph extends React.Component {
 
     this.setState({
       filter
-    }, this.load)
+    }, this.update)
 
   }
-
-
-  update = (response) => {
-    this.setState({
-      loading: false,
-      data: response.response
-    })
-    return data
-  }
-
   getColor = () => {
     return 'rgb(120,120,120)'
   }
@@ -101,36 +137,58 @@ class CubeGraph extends React.Component {
     }
   }
 
+  onChangeDates = (range) => {
+    this.setState({
+      range
+    }, this.update)
+  }
+
+  onCompare = (comparing, comparingRange) => {
+    this.setState({
+      comparing,
+      comparingRange
+    }, this.update)
+  }
+
   render() {
     if(this.state.data) {
       const {p, ... countData } = this.state.data
 
       const timeData = {}
-      
+
       Object.keys(p).forEach((k) => {
-        timeData[timeParse('%Y-%m')(k).getTime()/1000] = p[k]
+        timeData[utcParse(DATE_FORMAT)(k).getTime()/1000] = p[k]
       })
 
       return (
         <div>
           <h1>Homicide Report</h1>
-          {/*<TimeGraph
+          <TimeGraph
             data={timeData}
-            aggregation='day'
-            getColor={this.getColor}
-            timeUnitLengthSec={60*60*24*30}
-            timeDisplay={timeFormat('%x')}
-            onChange={this.onChange}
+            aggregation='month'
+            timeDisplay={timeFormat('%b %Y')}
+            onChange={this.onChangeDates}
             mouseIteractions={true}
-            type='bar'
-          />*/}
+            onClickCompare={this.onCompare}
+            group={this.state.group}
+            type='area'
+            comparing={this.state.comparing}
+            getColor={colors}
+          />
+          <TagGroup
+              onChange={this.onChange}
+              getColor={colors}
+              tags={this.state.filter}
+            />
           <BarGraphGroup
             name={'Amount'}
             columns={2}
             data={countData}
+            comparingTo={this.state.comparingData}
             onChange={this.onChange}
             group={this.state.group}
             selectedItems={this.state.filter}
+            getColor={colors}
           />
         </div>
       )
