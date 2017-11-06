@@ -4095,9 +4095,9 @@ react-bootstrap@^0.31.3:
     uncontrollable "^4.1.0"
     warning "^3.0.0"
 
-react-cubedb@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-cubedb/-/react-cubedb-1.0.0.tgz#db9acad2907c454f8d8c594cac22cb9633499be7"
+react-cubedb@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-cubedb/-/react-cubedb-1.1.0.tgz#f8fb89319b4854b2c31d2b68ebf998d3d75c53bc"
   dependencies:
     d3 "^4.9.1"
     lodash "^4.17.4"

@@ -21,7 +21,7 @@ class CubeGraph extends React.Component {
     comparingRange: Array<number>,
     comparing: boolean,
     data: ?Object,
-    comparingData: boolean
+    comparingData: ?Object
   }
 
   constructor(props) {
@@ -138,15 +138,26 @@ class CubeGraph extends React.Component {
   }
 
   onChangeDates = (range) => {
+    const comparing = range.length ? this.state.comparing : false
+    const comparingRange = comparing ? this.state.comparingRange : false
+    const comparingData = comparing ? this.state.comparingData : false
+
     this.setState({
-      range
+      range,
+      comparing,
+      comparingRange,
+      comparingData
     }, this.update)
   }
 
-  onCompare = (comparing, comparingRange) => {
+  onCompare = (comparing, range) => {
+    const comparingRange = comparing ? range : false
+    const comparingData = comparing ? this.state.comparingData : false
+    
     this.setState({
       comparing,
-      comparingRange
+      comparingRange,
+      comparingData
     }, this.update)
   }
 
@@ -157,7 +168,7 @@ class CubeGraph extends React.Component {
       const timeData = {}
 
       Object.keys(p).forEach((k) => {
-        timeData[utcParse(DATE_FORMAT)(k).getTime()/1000] = p[k]
+        timeData[utcParse(DATE_FORMAT)(k).getTime()] = p[k]
       })
 
       return (
