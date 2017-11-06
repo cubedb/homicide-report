@@ -7,7 +7,6 @@ import { timeFormat, utcParse, utcFormat, schemeCategory20c, scaleOrdinal } from
 
 import { TimeGraph, TagGroup, BarGraphGroup } from 'react-cubedb'
 
-const colors = scaleOrdinal(schemeCategory20c)
 const DATE_FORMAT = '%Y-%m'
 const DATA_SOURCE = 'http://188.226.178.165:9998/v1/homicides_month/last/400'
 
@@ -21,8 +20,11 @@ class CubeGraph extends React.Component {
     comparingRange: Array<number>,
     comparing: boolean,
     data: ?Object,
-    comparingData: ?Object
+    comparingData: ?Object,
+    columns: number
   }
+
+  colors = scaleOrdinal(schemeCategory20c)
 
   constructor(props) {
     super(props)
@@ -31,18 +33,25 @@ class CubeGraph extends React.Component {
       loading: false,
       data: null,
       comparingData: null,
-      group: null,
+        group: null,
       range: null,
       comparingRange: null,
       filter: {},
-      comparing: false
+      comparing: false,
+      columns: 2
     }
   }
 
   componentDidMount = () => {
     this.update()
+    window.addEventListener('resize', () => {
+      this.updateColumnNumber()
+    })
   }
 
+  componentWillUnmout = () => {
+    this.removeEventListener('resize')
+  }
 
   load = (range) => {
       const filter = Object.assign({}, this.state.filter)
@@ -50,7 +59,7 @@ class CubeGraph extends React.Component {
       if(range && range.length) {
         const f = utcFormat(DATE_FORMAT)
         const [p0,p1] = range
-        filter.p = [f(p0), f(p1)]
+        filter.p = [f(p0), f(p1-60)]
       }
 
       const url = `${DATA_SOURCE}/${this.state.group ? `group_by/${this.state.group}`:''}?${qs.stringify(filter, {encode: true, indices: false})}`
@@ -67,6 +76,13 @@ class CubeGraph extends React.Component {
   updateError = e => {
     this.setState({
       error: e.message
+    })
+  }
+
+  updateColumnNumber = () => {
+    const columns = window.innerWidth < 640 ? 1 : 2
+    this.setState({
+      columns
     })
   }
 
@@ -94,6 +110,7 @@ class CubeGraph extends React.Component {
               })
               .catch(this.updateError)
           }
+          this.updateColumnNumber()
           return response
         })
         .catch(this.updateError)
@@ -108,6 +125,8 @@ class CubeGraph extends React.Component {
     this.setState({
       group
     }, this.update)
+
+    this.color = scaleOrdinal(schemeCategory20c)
   }
 
   updateFilter = (key, value) => {
@@ -125,8 +144,27 @@ class CubeGraph extends React.Component {
     }, this.update)
 
   }
-  getColor = () => {
-    return 'rgb(120,120,120)'
+  getColor = (name) => {
+    if(name === null || !this.state.group) {
+      return '#93c54b'
+    } else {
+      switch(name.toString().toLowerCase()) {
+        case 'unknown':
+          return '#333'
+        case 'other':
+          return '#999'
+        case 'female':
+          return '#C761C1'
+        case 'male':
+          return '#729CD1'
+        case 'no':
+          return '#C73531'
+        case 'yes':
+          return '#37AD27'
+        default:
+          return this.colors(name)
+      }
+    }
   }
 
   onChange = (o,v) => {
@@ -140,7 +178,7 @@ class CubeGraph extends React.Component {
   onChangeDates = (range) => {
     const comparing = range.length ? this.state.comparing : false
     const comparingRange = comparing ? this.state.comparingRange : false
-    const comparingData = comparing ? this.state.comparingData : false
+    const comparingData = comparing ? this.state.comparingData : null
 
     this.setState({
       range,
@@ -152,8 +190,8 @@ class CubeGraph extends React.Component {
 
   onCompare = (comparing, range) => {
     const comparingRange = comparing ? range : false
-    const comparingData = comparing ? this.state.comparingData : false
-    
+    const comparingData = comparing ? this.state.comparingData : null
+
     this.setState({
       comparing,
       comparingRange,
@@ -173,33 +211,39 @@ class CubeGraph extends React.Component {
 
       return (
         <div>
-          <h1>Homicide Report</h1>
-          <TimeGraph
-            data={timeData}
-            aggregation='month'
-            timeDisplay={timeFormat('%b %Y')}
-            onChange={this.onChangeDates}
-            mouseIteractions={true}
-            onClickCompare={this.onCompare}
-            group={this.state.group}
-            type='area'
-            comparing={this.state.comparing}
-            getColor={colors}
-          />
+            <TimeGraph
+              data={timeData}
+              height={360}
+              aggregation='month'
+              timeDisplay={timeFormat('%b %Y')}
+              onChange={this.onChangeDates}
+              mouseIteractions={true}
+              onClickCompare={this.onCompare}
+              group={this.state.group}
+              type='area'
+              comparing={this.state.comparing}
+              getColor={this.getColor}
+              filter={this.state.filter.p}
+              margin={{
+                left: 30,
+                bottom: 20,
+                right: 10
+              }}
+            />
           <TagGroup
               onChange={this.onChange}
-              getColor={colors}
+              getColor={this.getColor}
               tags={this.state.filter}
             />
           <BarGraphGroup
             name={'Amount'}
-            columns={2}
+            columns={this.state.columns}
             data={countData}
             comparingTo={this.state.comparingData}
             onChange={this.onChange}
             group={this.state.group}
             selectedItems={this.state.filter}
-            getColor={colors}
+            getColor={this.getColor}
           />
         </div>
       )
@@ -213,5 +257,5 @@ class CubeGraph extends React.Component {
 
 reactDOM.render(
   <CubeGraph />,
-  document.getElementById('container')
+  document.getElementById('vizContainer')
 )
