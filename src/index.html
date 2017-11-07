@@ -22,17 +22,34 @@
          .bar-graph__container .panel-heading h4 {
              text-transform: capitalize;
          }
+
+         @media (min-width: 1520px) {
+             header {
+                 position: absolute;
+                 margin-left: -340px;
+                 width: 300px;
+                 top: 20px;
+             }
+
+             @media (max-width: 1830px) {
+                 .container {
+                     margin-left: 340px;
+                 }
+             }
+         }
         </style>
     </head>
     <body>
         <article class="container" id="container">
-            <h1>Homicide reports</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et ex lectus. Nullam tempor mi id suscipit mollis. Suspendisse dapibus tellus nisi, eget blandit risus condimentum et. Sed egestas tellus nec erat mollis, sit amet luctus sapien laoreet. Suspendisse neque sapien, vulputate eu risus quis, accumsan volutpat felis. Donec at porta odio. Proin ut laoreet orci. Aliquam sit amet condimentum felis. Aenean eu congue arcu, quis pretium ex. Ut sodales ultricies velit ac luctus. Maecenas non eleifend justo. Vivamus aliquam a nisi vestibulum sollicitudin. Donec luctus felis at hendrerit tempus. Maecenas eu risus quis urna vestibulum semper. Sed porttitor, quam id molestie pharetra, lorem lectus aliquet tortor, ac facilisis felis leo non metus. Sed lobortis rutrum mi, eget porta tortor pellentesque sed.</p>
+            <header>
+                <h1>Homicide reports</h1>
+                <p>Lorem Nunc pulvinar sapien et ligula ullamcorper malesuada proin libero nunc, consequat interdum varius sit amet, mattis vulputate enim nulla? Leo duis ut diam quam nulla porttitor massa id neque aliquam? dolor sit amet, consectetur adipiscing elit. Ut et ex lectus. Nullam tempor mi id suscipit mollis. Suspendisse dapibus tellus nisi, eget blandit risus condimentum et. Sed egestas tellus nec erat mollis, sit amet luctus sapien laoreet. Suspendisse neque sapien, vulputate eu risus quis, accumsan volutpat felis. Donec at porta odio. Proin ut laoreet orci. Aliquam sit amet condimentum felis. Aenean eu congue arcu, quis pretium ex. Ut sodales ultricies velit ac luctus. Maecenas non eleifend justo. Vivamus aliquam a nisi vestibulum sollicitudin. Donec luctus felis at hendrerit tempus. Maecenas eu risus quis urna vestibulum semper. Sed porttitor, quam id molestie pharetra, lorem lectus aliquet tortor, ac facilisis felis leo non metus. Sed lobortis rutrum mi, eget porta tortor pellentesque sed.</p>
+            </header>
             <div id='vizContainer'></div>
+            <footer>
+                To create this visualization, we used <a target="_blank" href="https://github.com/sztanko/cubedb">CubeDB</a> database and <a target="_blank" href="https://github.com/jrfferreira/react-cubedb">React CubeDB</a> components.
+            </footer>
         </article>
-        <footer>
-            To create this visualization, we used <a target="_blank" href="https://github.com/sztanko/cubedb">CubeDB</a> database and <a target="_blank" href="https://github.com/jrfferreira/react-cubedb">React CubeDB</a> components.
-        </footer>
         <!-- Script loading -->
     </body>
 </html>

@@ -3,11 +3,13 @@
   "extends": [
     "eslint:recommended",
     "plugin:promise/recommended",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:react/recommended"
    ],
   "plugins": [
     "promise",
-    "jest"
+    "jest",
+    "react"
   ],
   "parserOptions": {
     "sourceType": "module",
