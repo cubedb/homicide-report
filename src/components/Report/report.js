@@ -41,7 +41,7 @@ export default class Report extends React.Component {
     super(props)
 
     this.state = {
-      columns: this.updateColumnNumber()
+      columns: 1
     }
   }
 
@@ -49,6 +49,7 @@ export default class Report extends React.Component {
     window.addEventListener('resize', () => {
       this.updateColumnNumber()
     })
+    this.updateColumnNumber()
   }
 
   componentWillUnmout = () => {
@@ -57,6 +58,7 @@ export default class Report extends React.Component {
 
   updateColumnNumber = () => {
     const columns = window.innerWidth < 640 ? 1 : 2
+
     this.setState({
       columns
     })

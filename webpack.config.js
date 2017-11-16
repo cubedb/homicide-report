@@ -4,6 +4,7 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: './src',
@@ -23,10 +24,13 @@ module.exports = {
     }),
     new ProgressBarPlugin(),
     new CaseSensitivePathsPlugin(),
-    //new webpack.optimize.UglifyJsPlugin({
-    //  sourceMap: true,
-    //  compress: { warnings: true }
-    //}),
+    new CopyWebpackPlugin([
+      { from: 'src/static' }
+    ]),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   sourceMap: true,
+    //   compress: { warnings: true }
+    // }),
   ],
   module: {
     loaders: [
@@ -49,7 +53,7 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [{ loader: 'style-loader' }, { loader: 'css-loader' }, { loader: 'sass-loader' }]
-      },
+      }
     ]
   },
   output: {

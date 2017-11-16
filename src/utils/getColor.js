@@ -4,9 +4,9 @@ const colorsScales: { [string]: Object } = {}
 
 export default function getColor (name: string, dimension: string ='null', group: string = null) {
   if(name === null) {
-    return '#93c54b'
+    return '#3182bd'
   } else {
-    switch(name.toString().toLowerCase()) {
+    switch((name||'').toString().toLowerCase()) {
       case 'unknown':
         return '#333'
       case 'other':

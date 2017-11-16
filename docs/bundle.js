@@ -1,4 +1,4 @@
-/*! 	generated: Thu Nov 16 2017 13:25:05 GMT+0000 (GMT) */
+/*! 	generated: Thu Nov 16 2017 14:34:57 GMT+0000 (GMT) */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -72594,6 +72594,7 @@ class Report extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
       window.addEventListener('resize', () => {
         this.updateColumnNumber();
       });
+      this.updateColumnNumber();
     };
 
     this.componentWillUnmout = () => {
@@ -72602,6 +72603,7 @@ class Report extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
     this.updateColumnNumber = () => {
       const columns = window.innerWidth < 640 ? 1 : 2;
+
       this.setState({
         columns
       });
@@ -72614,7 +72616,7 @@ class Report extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     };
 
     this.state = {
-      columns: this.updateColumnNumber()
+      columns: 1
     };
   }
 
@@ -72676,9 +72678,9 @@ const colorsScales = {};
 
 function getColor(name, dimension = 'null', group = null) {
   if (name === null) {
-    return '#93c54b';
+    return '#3182bd';
   } else {
-    switch (name.toString().toLowerCase()) {
+    switch ((name || '').toString().toLowerCase()) {
       case 'unknown':
         return '#333';
       case 'other':

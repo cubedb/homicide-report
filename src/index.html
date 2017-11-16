@@ -3,7 +3,23 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Homicide Report</title>
+
+        <!-- metadata -->
+        <meta name="description" content="Homice report dataset including the age, race, sex, ethnicity of victims and perpetrators, in addition to the relationship between the victim and perpetrator and weapon used." />
+        <meta name="keywords" content="homicide, data, report, murder, summary" />
+        <meta name="author" content="metatags generator">
+        <meta name="robots" content="index, follow">
+        <meta name="revisit-after" content="3 month">
+        <title>Homicide Report - 1981 to 2014</title>
+
+        <meta property="og:title" content="Homice Report by CubeDB">
+        <meta property="og:image" content="/logo.png">
+        <meta property="og:description" content="Homice report dataset including the age, race, sex, ethnicity of victims and perpetrators, in addition to the relationship between the victim and perpetrator and weapon used.">
+
+        <link rel="shortcut icon" type="image/png" href="logo.png"/>
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+        <!--  -->
+
         <link href="https://bootswatch.com/3/sandstone/bootstrap.min.css" rel="stylesheet"></link>
         <style>
          footer { text-align: center; margin: 20px 0; }
@@ -11,6 +27,7 @@
          .container { margin-top: 20px; }
          .bar-graph__container .btn-sm { padding: 3px 7px 1px; }
          .bar-graph__container .panel-heading h4 { text-transform: capitalize; }
+         a:hover, a:focus, a { color: #3182bd; }
 
          @media (min-width: 1520px) {
              header {
@@ -39,6 +56,17 @@
                 To create this visualization, we used <a target="_blank" href="https://github.com/sztanko/cubedb">CubeDB</a> database and <a target="_blank" href="https://github.com/jrfferreira/react-cubedb">React CubeDB</a> components.
             </footer>
         </article>
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109755098-2"></script>
+        <script>
+           window.dataLayer = window.dataLayer || [];
+           function gtag(){dataLayer.push(arguments);}
+           gtag('js', new Date());
+
+           gtag('config', 'UA-109755098-2');
+        </script>
+
         <!-- Script loading -->
     </body>
 </html>
