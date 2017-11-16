@@ -1,16 +1,15 @@
-# es6-scaffolding
+# Homicide reports
 
-## Clone repo
-```
-git clone https://github.com/jrfferreira/es6-scaffolding new-es6-project-folder
-```
+The Murder Accountability Project is the most complete database of homicides in the United States currently available. This dataset includes murders from the FBI's Supplementary Homicide Report from 1976 to the present and Freedom of Information Act data on more than 22,000 homicides that were not reported to the Justice Department. This dataset includes the age, race, sex, ethnicity of victims and perpetrators, in addition to the relationship between the victim and perpetrator and weapon used.
 
-## Sync dependences
-```
-nvm install && npm install
-```
+## Acknowledgements
 
-## Start project
-```
-npm start
-```
+The data was compiled and made available by the Murder Accountability Project, founded by Thomas Hargrove.
+
+## Technologies
+
+ To create this visualization, we used [CubeDB][cubedb] database and [React CubeDB][react-cubedb] components.
+ 
+ 
+[cubedb]: https://github.com/sztanko/cubedb
+[react-cubedb]: https://github.com/jrfferreira/react-cubedb/
