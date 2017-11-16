@@ -1,4 +1,4 @@
-/*! 	generated: Tue Nov 07 2017 13:26:42 GMT+0000 (GMT) */
+/*! 	generated: Thu Nov 16 2017 11:11:14 GMT+0000 (GMT) */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -58795,7 +58795,7 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 
 
 const DATE_FORMAT = '%Y-%m';
-const DATA_SOURCE = 'http://188.226.178.165:9998/v1/homicides_month/last/400';
+const DATA_SOURCE = 'https://cubedb.org/v1/homicides_month/last/400';
 
 class ReportContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 

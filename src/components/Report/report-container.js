@@ -7,7 +7,7 @@ import { utcParse, utcFormat } from 'd3'
 import Report from './report'
 
 const DATE_FORMAT = '%Y-%m'
-const DATA_SOURCE = 'http://188.226.178.165:9998/v1/homicides_month/last/400'
+const DATA_SOURCE = 'https://cubedb.org/v1/homicides_month/last/400'
 
 
 export default class ReportContainer extends React.Component {
