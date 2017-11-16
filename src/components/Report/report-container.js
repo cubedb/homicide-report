@@ -56,6 +56,19 @@ export default class ReportContainer extends React.Component {
     return parse(string)
   }
 
+  sortObject = (obj: Object) => {
+    const sorted = {}
+    const keys = Object.keys(obj)
+
+    keys.sort()
+
+    keys.map((key) => {
+      sorted[key] = typeof obj[key] === 'object' ? this.sortObject(obj[key]) : obj[key]
+    })
+
+    return sorted
+  }
+
   load = (range) => {
     const filter = Object.assign({}, this.state.filter)
 
@@ -83,7 +96,9 @@ export default class ReportContainer extends React.Component {
         })
       }
       return response.response
-    }).catch(this.updateError)
+    })
+    .then(this.sortObject)
+    .catch(this.updateError)
   }
 
   updateError = e => {
@@ -102,7 +117,7 @@ export default class ReportContainer extends React.Component {
       comparing: this.state.comparing ? true : null
     })
 
-    const newPath = `${global.location.origin}?${this.paramsToString(params)}`
+    const newPath = `${global.location.origin}${global.location.pathname}?${this.paramsToString(params)}`
 
     global.history.pushState({
       path: newPath

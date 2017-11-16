@@ -1,4 +1,4 @@
-/*! 	generated: Thu Nov 16 2017 11:18:18 GMT+0000 (GMT) */
+/*! 	generated: Thu Nov 16 2017 13:25:05 GMT+0000 (GMT) */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -58818,6 +58818,19 @@ class ReportContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Comp
       return Object(__WEBPACK_IMPORTED_MODULE_1_qs__["parse"])(string);
     };
 
+    this.sortObject = obj => {
+      const sorted = {};
+      const keys = Object.keys(obj);
+
+      keys.sort();
+
+      keys.map(key => {
+        sorted[key] = typeof obj[key] === 'object' ? this.sortObject(obj[key]) : obj[key];
+      });
+
+      return sorted;
+    };
+
     this.load = range => {
       const filter = Object.assign({}, this.state.filter);
 
@@ -58845,7 +58858,7 @@ class ReportContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Comp
           });
         }
         return response.response;
-      }).catch(this.updateError);
+      }).then(this.sortObject).catch(this.updateError);
     };
 
     this.updateError = e => {
@@ -58864,7 +58877,7 @@ class ReportContainer extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Comp
         comparing: this.state.comparing ? true : null
       });
 
-      const newPath = `${global.location.origin}?${this.paramsToString(params)}`;
+      const newPath = `${global.location.origin}${global.location.pathname}?${this.paramsToString(params)}`;
 
       global.history.pushState({
         path: newPath
@@ -72662,7 +72675,7 @@ class Report extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 const colorsScales = {};
 
 function getColor(name, dimension = 'null', group = null) {
-  if (name === null || !group) {
+  if (name === null) {
     return '#93c54b';
   } else {
     switch (name.toString().toLowerCase()) {
@@ -88748,7 +88761,7 @@ var TimeGraphContent = function (_React$Component) {
         var rulerMarkRangeEnd = end;
 
         if (intervalSize > 60) {
-          var _x4 = this.countRange(this.state.range);
+          var intervalLength = Math.abs(this.countRange(this.state.range));
           marks.push(_react2.default.createElement(
             'g',
             { key: 'interval-label' },
@@ -88758,7 +88771,7 @@ var TimeGraphContent = function (_React$Component) {
                 className: 'ruler__label',
                 width: 60,
                 transform: 'translate(' + (pos + interval / 2) + ', ' + (this.props.margin.top + 15) + ')' },
-              _x4 + ' ' + (this.props.aggregation + (_x4 > 1 ? 's' : ''))
+              intervalLength + ' ' + (this.props.aggregation + (intervalLength > 1 ? 's' : ''))
             )
           ));
         }

@@ -3,7 +3,7 @@ import { schemeCategory20c, scaleOrdinal } from 'd3'
 const colorsScales: { [string]: Object } = {}
 
 export default function getColor (name: string, dimension: string ='null', group: string = null) {
-  if(name === null || !group) {
+  if(name === null) {
     return '#93c54b'
   } else {
     switch(name.toString().toLowerCase()) {
